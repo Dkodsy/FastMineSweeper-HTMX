@@ -1,0 +1,70 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    font-size: 12pt;
+    font-family: SF Mono, monospace;
+    background-color: #f0f0ff;
+    padding: 20px;
+}
+
+#status {
+    color: #8aa487;
+}
+
+#status::before {
+    content: "";
+    display: inline-block;
+    width: 25px;
+    height: 19px;
+    margin-right: 0.2em;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 100px 19px;
+}
+
+#status[data-status="connected"] {
+    color: #8aa487;
+}
+
+#status[data-status="error"] {
+    color: #c4796f;
+}
+
+#status[data-status="connecting"] {
+    color: #c8ad97;
+}
+
+#status[data-status="disconnected"] {
+    color: #8e8e8e;
+}
+
+#status[data-status="connected"]::before {
+    background-position: left center;
+}
+
+#status[data-status="error"]::before {
+    background-position: -25px center;
+}
+
+#status[data-status="connecting"]::before {
+    background-position: -50px center;
+}
+
+#status[data-status="disconnected"]::before {
+    background-position: right center;
+}
+
+#users ul {
+    padding-left: 20px;
+}
+
+#messages {
+    padding-left: 20px;
+}
