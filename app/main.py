@@ -34,12 +34,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
 
 @app.get("/", response_class=HTMLResponse)
 async def main_page(request: Request) -> HTMLResponse:
-    redirect_url = request.headers.get("redirect_url")
-    if redirect_url:
-        response = HTMLResponse()
-        response.headers["HX-Redirect"] = redirect_url
-        return response
-    return templates.TemplateResponse("minesweeper_general.html", {"request": request})
+    return templates.TemplateResponse("main.html", {"request": request})
 
 
 @app.get("/create_game", response_class=HTMLResponse)
