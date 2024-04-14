@@ -38,11 +38,22 @@ async def main_page(request: Request) -> HTMLResponse:
 
 
 @app.get("/create_game", response_class=HTMLResponse)
-async def create_game(request: Request) -> HTMLResponse:
-    # На данный момент /create_game содержит в себе логику подключения и
-    # TODO создания игры
-    random_number = await generate_game_code()
-    active_game.game_code = random_number
-    return templates.TemplateResponse(
-        "create_game.html", {"request": request, "game_code": random_number}
-    )
+async def get_create_game(request: Request) -> HTMLResponse:
+    return templates.TemplateResponse("create_game.html", {"request": request})
+
+
+@app.post("/create_game", response_class=HTMLResponse)
+async def create_game(request: Request,
+                      player_count: int = Form(...),
+                      board_size: str = Form(...),
+                      time_limit: int = Form(...)
+                      ):
+    new_game = Game()
+    response = HTMLResponse()
+    response.headers["HX-Redirect"] = f'/game/{new_game.game_id}'
+    return response
+
+
+@app.get("/game/{game_id}", response_class=HTMLResponse)
+async def join_game(request: Request, game_id: str) -> HTMLResponse:
+    return templates.TemplateResponse("game.html", {"request": request, 'game_id': game_id})
