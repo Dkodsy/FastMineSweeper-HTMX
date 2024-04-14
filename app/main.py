@@ -1,35 +1,29 @@
-from fastapi import FastAPI, WebSocket, Request
+from fastapi import FastAPI, WebSocket, Request, Form
+from fastapi.websockets import WebSocketDisconnect
 from fastapi.templating import Jinja2Templates
 from starlette.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.services.minesweeper import generate_content, generate_game_code, ActiveGame
+from app.game import Game
+from app.services.connections import ConnectionManager
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
-active_game = ActiveGame()
-connected_clients = []
+connection_manager = ConnectionManager()
 
 
-# TODO подключение к одной и той же игре (на данный момент эта часть не работает)
-@app.websocket("/ws/connected")
-async def websocket_endpoint(websocket: WebSocket) -> None:
-    await websocket.accept()
-    connected_clients.append({"websocket": websocket})
+@app.websocket("/game/{game_id}")
+async def game_endpoint(websocket: WebSocket, game_id: str) -> None:
+    await connection_manager.connect(websocket, game_id)
     try:
         while True:
             data = await websocket.receive_json()
-            for client in connected_clients:
-                content = await generate_content(connection=websocket, data=data)
-                await client["websocket"].send_text(content)
-    except Exception as e:
-        print(e)
-        # TODO Фикс бага
-        # "cannot call recv while another coroutine is already waiting for the next message"
-        connected_clients.remove({"websocket": websocket})
+            await connection_manager.broadcast(data, game_id)
+    except WebSocketDisconnect:
+        connection_manager.disconnect(websocket)
 
 
 @app.get("/", response_class=HTMLResponse)
