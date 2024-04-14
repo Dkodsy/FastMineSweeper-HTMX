@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block content %}
+    <main role="main" class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">Добро пожаловать в игру "Сапёр"!</h1>
+            <p class="lead">Сапёр — это классическая игра, в которой вам нужно расставить мины на поле и попытаться
+                найти все безопасные клетки без подрыва бомбы.</p>
+            <hr class="my-4">
+            <p>Нажмите кнопку ниже, чтобы создать новую игру и начать играть вместе с друзьями!</p>
+            <a class="btn btn-primary btn-lg" href="/create_game" role="button">Создать новую игру</a>
+        </div>
+    </main>
+{% endblock %}
