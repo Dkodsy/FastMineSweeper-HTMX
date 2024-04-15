@@ -26,15 +26,3 @@ class Game:
 
     def __init__(self):
         self.game_id: str = generate_game_uuid()
-        # self.connections: Dict[uuid.UUID, WebSocket] = {}
-
-    # def add_user(self, user_id: uuid.UUID, websocket: WebSocket):
-    #     """Add a user websocket, keyed by corresponding user ID.
-    #
-    #     Raises:
-    #         ValueError: If the `user_id` already exists within the room.
-    #     """
-    #     if user_id in self.connections:
-    #         raise ValueError(f"User {user_id} is already in the room")
-    #     logger.info("Adding user %s to room", user_id)
-    #     self.connections[user_id] = websocket
