@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block content %}
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    #game {
+        display: grid;
+        grid-template-columns: repeat(10, 30px); /* Ширина каждой клетки */
+        grid-template-rows: repeat(10, 30px); /* Высота каждой клетки */
+        gap: 1px; /* Расстояние между клетками */
+        border: 1px solid #000;
+        background-color: #333; /* Цвет фона поля */
+    }
+</style>
+    <div id="gameContainer">
+        <div id="create_game_form">
+            <div>
+                <div>
+                    Код для подключения: {{ game_id }}
+                </div>
+            </div>
+        </div>
+        <div id="game">
+            <!-- Здесь будут поля для игры -->
+        </div>
+        <div hx-ext="ws" ws-connect="/game/{{ game_id }}">
+            <form ws-send>
+                <input name="chat_message"/>
+            </form>
+            <div id="content"></div>
+        </div>
+    </div>
+{% endblock %}

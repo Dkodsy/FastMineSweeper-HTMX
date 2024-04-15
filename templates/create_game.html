@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block content %}
+    <div class="container mt-5" id="create_game_div">
+        <h1 class="mb-4">Создайте игру</h1>
+
+        <form id="gameCreationForm"
+              hx-post="/create_game"
+              hx-target="#create_game_div"
+              method="post">
+
+            <div class="form-group">
+                <label for="player_count">Количество игроков <span class="text-muted">(в разработке)</span>:</label>
+                <input type="number" class="form-control" id="player_count" name="player_count" min="1" max="2"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="board_size">Размер поля <span class="text-muted">(в разработке)</span>:</label>
+                <select class="form-control" id="board_size" name="board_size">
+                    <option value="small">Маленькое</option>
+                    <option value="medium">Среднее</option>
+                    <option value="large">Большое</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="time_limit">Ограничение по времени <span class="text-muted">(в разработке)</span>:</label>
+                <input type="number" class="form-control" id="time_limit" name="time_limit" min="1" required>
+            </div>
+
+            <button type="submit" name="action" class="btn btn-primary">Создать игру</button>
+        </form>
+    </div>
+{% endblock %}
