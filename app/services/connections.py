@@ -22,6 +22,10 @@ class ConnectionManager:
 
     def disconnect(self, websocket: WebSocket):
         self.active_connections.remove(websocket)
+        # TODO refactor
+        for key, value in self.active_game_connections.items():
+            if websocket in value:
+                value.remove(websocket)
 
     async def send_personal_message(self, message: dict, websocket: WebSocket):
         content = await generate_content(message)
